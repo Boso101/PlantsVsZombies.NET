@@ -79,6 +79,10 @@ namespace Lawn
         ZombieDancer,
         ZombieGargantuar,
         ZombieImp,
+        ZombieGigaGargantuar,
+        ZombieJackBox,
+        ZombieCatapult,
+        ZombieFlag,
         All,
         SeedsInChooserCount = 49,
         None = -1

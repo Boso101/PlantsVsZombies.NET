@@ -1826,6 +1826,14 @@ namespace Lawn
                 return 300;
             case SeedType.ZombieImp:
                 return 50;
+            case SeedType.ZombieGigaGargantuar:
+                return 600;
+            case SeedType.ZombieFlag:
+                return 300;
+            case SeedType.ZombieJackBox:
+                return 200;
+            case SeedType.ZombieCatapult:
+                return 250;
             default:
             {
                 if (theSeedType == SeedType.Imitater && theImitaterType != SeedType.None)

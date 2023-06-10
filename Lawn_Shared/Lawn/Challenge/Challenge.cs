@@ -2362,6 +2362,21 @@ namespace Lawn
             }
         }
 
+        public void SpawnZombieWaveFriendly()
+        {
+            for (int j = 0; j < GameConstants.MAX_ZOMBIES_IN_WAVE; j++)
+            {
+                ZombieType zombieType2 = mBoard.mZombiesInWave[mBoard.mCurrentWave, j];
+                if (zombieType2 == ZombieType.Invalid)
+                {
+                    break;
+                }
+
+
+                IZombiePlaceZombie(zombieType2, 0, RandomNumbers.NextNumber(Constants.MAX_GRIDSIZEY - 1), (zomb) => zomb.IsMindControlled = true);
+                
+            }
+        }
         public void SpawnZombieWave()
         {
             if (mApp.IsContinuousChallenge() && mBoard.mCurrentWave == mBoard.mNumWaves)
@@ -4154,16 +4169,12 @@ namespace Lawn
         public static ZombieType IZombieSeedTypeToZombieType(SeedType theSeedType)
         {
             ZombieType zomb = SeedPacket.GetIZombieTypeFromSeed(theSeedType);
-            if (zomb != ZombieType.Invalid)
-                return zomb;
-            Debug.ASSERT(false);
-            return ZombieType.Normal;
+            return zomb;
         }
 
         public static bool IsZombieSeedType(SeedType theSeedType)
         {
-            int val = (int)theSeedType;
-            return val >= 60 && val < 86;
+            return (int)theSeedType >= (int)SeedType.ZombieNormal && (int)theSeedType < (int)SeedType.ZombieFlag;
         }
 
         public void IZombieMouseDownWithZombie(int x, int y, int theClickCount, bool shouldMindControl = false)

@@ -258,7 +258,7 @@ namespace Lawn
                 {
                     g.DrawImage(AtlasResources.IMAGE_SEEDPACKET_CRATER, x, y);
                 }
-                else if ((val >= 60 && val < 75) || GlobalStaticVars.gLawnApp.IsIZombieLevel() || GlobalStaticVars.gLawnApp.mGameMode == GameMode.ZombieVersusZombie)
+                else if ((val >= 60 && val < (int)SeedType.ZombieFlag) || GlobalStaticVars.gLawnApp.IsIZombieLevel() || GlobalStaticVars.gLawnApp.mGameMode == GameMode.ZombieVersusZombie)
                 {
                     SeedPacket.DrawIZombieSeedPacket(GlobalStaticVars.gLawnApp, g, x, y, seedType, thePercentDark, theGrayness, theDrawCost, theUseCurrentCost, theDrawBackground, theDrawCostBackground);
                 }
@@ -357,7 +357,7 @@ namespace Lawn
             @new.SetScale(1f);
             @new.ClipRect((int)x + Constants.IZombie_ClipOffset.X, (int)y + Constants.IZombie_ClipOffset.Y, Constants.IZombie_ClipOffset.Width, Constants.IZombie_ClipOffset.Height);
             @new.HardwareClip();
-            theApp.mReanimatorCache.DrawCachedZombie(@new, x + Constants.ZombieOffsets[(int)izombieTypeFromSeed].X * g.mScaleX, y + Constants.ZombieOffsets[(int)izombieTypeFromSeed].Y * g.mScaleY, izombieTypeFromSeed);
+            theApp.mReanimatorCache.DrawCachedZombie(@new, x + 20 * g.mScaleX, y + 11 * g.mScaleY, izombieTypeFromSeed);
             @new.SetColorizeImages(false);
             @new.EndHardwareClip();
             @new.PrepareForReuse();
@@ -409,6 +409,12 @@ namespace Lawn
                 return ZombieType.Gargantuar;
             case SeedType.ZombieImp:
                 return ZombieType.Imp;
+            case SeedType.ZombieGigaGargantuar:
+                return ZombieType.RedeyeGargantuar;
+            case SeedType.ZombieJackBox:
+                return ZombieType.JackInTheBox;
+            case SeedType.ZombieCatapult:
+                return ZombieType.Catapult;
             default:
                 return ZombieType.Invalid;
             }

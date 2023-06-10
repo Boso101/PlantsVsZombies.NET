@@ -1665,13 +1665,13 @@ namespace Lawn
             GridItem gridItem = null;
             while (IterateGridItems(ref gridItem, ref num2))
             {
-                if (gridItem.mGridItemType == GridItemType.Gravestone && gridItem.mGridItemCounter >= 100 && (mApp.mGameMode != GameMode.ChallengeGraveDanger || RandomNumbers.NextNumber(mNumWaves) <= mCurrentWave))
+                if (gridItem.mGridItemType == GridItemType.Gravestone && (gridItem.IsMindControlled == true) ||  gridItem.mGridItemCounter >= 100 && (mApp.mGameMode != GameMode.ChallengeGraveDanger || RandomNumbers.NextNumber(mNumWaves) <= mCurrentWave))
                 {
                     ZombieType theZombieType = PickGraveRisingZombieType(num);
                     ZombieDefinition zombieDefinition = Zombie.GetZombieDefinition(theZombieType);
                     Zombie zombie = AddZombie(theZombieType, mCurrentWave);
 
-                  
+
 
                     if (zombie == null)
                     {
@@ -3918,22 +3918,52 @@ namespace Lawn
 
         public void MouseUpWithPlant(int x, int y, int theClickCount)
         {
-         
+
             SeedType seedTypeInCursor = GetSeedTypeInCursor();
             bool shouldMindControl = mApp.IsIZombieLevel() == false;
+
+
             if (mApp.IsIZombieLevel() || Challenge.IsZombieSeedType(seedTypeInCursor))
             {
                 mChallenge.IZombieMouseDownWithZombie(x, y, theClickCount, shouldMindControl);
                 return;
             }
+
+
+
             int num = PlantingPixelToGridX((int)(x * Constants.IS), (int)(y * Constants.IS), seedTypeInCursor);
             int num2 = PlantingPixelToGridY((int)(x * Constants.IS), (int)(y * Constants.IS), seedTypeInCursor);
+
+
+            if (seedTypeInCursor == SeedType.ZombieFlag)
+            {
+                if (TakeSunMoney(GetCurrentPlantCost(mCursorObject.mType, mCursorObject.mImitaterType)))
+                {
+
+                    SeedPacket seedPacket = mSeedBank.mSeedPackets[mCursorObject.mSeedBankIndex];
+                    seedPacket.WasPlanted();
+                    mApp.PlayFoley(FoleyType.Plant);
+                    ClearCursor();
+                    mChallenge.SpawnZombieWaveFriendly();
+
+
+                }
+
+                ClearCursor();
+                return;
+            }
+
+
             if (num < 0 || num >= Constants.GRIDSIZEX || num2 < 0 || num2 >= Constants.MAX_GRIDSIZEY)
             {
                 RefreshSeedPacketFromCursor();
                 mApp.PlayFoley(FoleyType.Drop);
                 return;
             }
+
+
+
+
             PlantingReason plantingReason = CanPlantAt(num, num2, seedTypeInCursor);
             if (plantingReason != PlantingReason.Ok)
             {
@@ -4157,7 +4187,7 @@ namespace Lawn
             }
             else if (mCursorObject.mCursorType == CursorType.PlantFromBank)
             {
-                if(Challenge.IsZombieSeedType(seedTypeInCursor))
+                if (Challenge.IsZombieSeedType(seedTypeInCursor))
                 {
 
                     return;

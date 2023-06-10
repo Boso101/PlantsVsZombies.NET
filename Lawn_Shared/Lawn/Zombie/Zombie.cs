@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using Microsoft.Xna.Framework;
 using Sexy;
 using Sexy.TodLib;
@@ -6526,7 +6527,7 @@ namespace Lawn
                 Reanimation reanimation = mApp.ReanimationGet(mBodyReanimID);
                 if (reanimation.ShouldTriggerTimedEvent(0.545f))
                 {
-                    Plant thePlant = FindCatapultTarget();
+                    GameObject thePlant = FindCatapultTarget();
                     ZombieCatapultFire(thePlant);
                 }
                 if (reanimation.mLoopCount > 0)
@@ -6561,7 +6562,7 @@ namespace Lawn
             }
             else if (mZombiePhase == ZombiePhase.CatapultReloading && mPhaseCounter == 0)
             {
-                Plant plant = FindCatapultTarget();
+                GameObject plant = FindCatapultTarget();
                 if (plant != null)
                 {
                     mZombiePhase = ZombiePhase.CatapultLaunching;
@@ -6574,21 +6575,42 @@ namespace Lawn
             }
         }
 
-        public Plant FindCatapultTarget()
+        public GameObject FindCatapultTarget()
         {
-            Plant result_v = null;
-            for (int i = 0; i < mBoard.mPlants.Count; i++)
+            GameObject result_v = null;
+
+            if (mMindControlled == false)
             {
-                Plant aPlant = mBoard.mPlants[i];
-                if (!aPlant.mDead && mRow == aPlant.mRow && mX >= aPlant.mX + 100 && !aPlant.NotOnGround() && !aPlant.IsSpiky() && (result_v == null || aPlant.mPlantCol < result_v.mPlantCol))
+                Plant prev = null;
+
+                for (int i = 0; i < mBoard.mPlants.Count; i++)
                 {
-                    result_v = mBoard.GetTopPlantAt(aPlant.mPlantCol, aPlant.mRow, TopPlant.CatapultOrder);
+                    Plant aPlant = mBoard.mPlants[i];
+                    if(prev != null)
+                    {
+                        prev = result_v as Plant;
+                    }
+                    if (!aPlant.mDead && mRow == aPlant.mRow && mX >= aPlant.mX + 100 && !aPlant.NotOnGround() && !aPlant.IsSpiky() && (result_v == null || aPlant.mPlantCol < prev.mPlantCol ))
+                    {
+                        result_v = mBoard.GetTopPlantAt(aPlant.mPlantCol, aPlant.mRow, TopPlant.CatapultOrder);
+                    }
+                }
+            }
+            else
+            {
+                foreach(var zomb in mBoard.mZombies)
+                {
+                    if(zomb != this &&  zomb.mDead == false && mRow == zomb.mRow && mX >= zomb.mX + 100)
+                    {
+                        result_v = zomb;
+                        break;
+                    }
                 }
             }
             return result_v;
         }
 
-        public void ZombieCatapultFire(Plant thePlant)
+        public void ZombieCatapultFire(GameObject thePlant)
         {
             float aOriginX = mPosX + 113f;
             float aOriginY = mPosY - 44f;
@@ -10982,7 +11004,7 @@ namespace Lawn
 
         public bool mHasShield = true;
 
-        public bool IsMindControlled { get => mMindControlled; set => mMindControlled = value; } 
+        public bool IsMindControlled { get => mMindControlled; set => mMindControlled = value; }
 
         public enum ZombieRenderLayerOffset //Prefix: ZOMBIE_LAYER_OFFSET
         {

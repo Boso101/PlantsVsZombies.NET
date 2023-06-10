@@ -5,7 +5,7 @@ using Sexy.TodLib;
 
 namespace Lawn
 {
-    public/*internal*/ class GridItem : IMindControllable
+    public/*internal*/ class GridItem : IMindControllable, IPlantable
     {
         private bool _isMindControlled;
 
@@ -262,12 +262,21 @@ namespace Lawn
             int num12 = mBoard.GridToPixelX(mGridX, mGridY) - 4 + num2;
             int num13 = mBoard.GridToPixelY(mGridX, mGridY) + num5 + num3;
             g.DrawImage(AtlasResources.IMAGE_TOMBSTONES, (int)(num12 * Constants.S), (int)((num13 - num8 + num11) * Constants.S + 0.5), theSrcRect);
+           
+            
             int num14 = (int)(num10 * Constants.S);
             if (num14 >= (int)Constants.InvertAndScale(34f))
             {
                 TRect theSrcRect2 = new TRect(AtlasResources.IMAGE_TOMBSTONE_MOUNDS.GetCelWidth() * num6, AtlasResources.IMAGE_TOMBSTONE_MOUNDS.GetCelHeight() * num7, AtlasResources.IMAGE_TOMBSTONE_MOUNDS.GetCelWidth(), (int)(num10 * Constants.S) - (int)Constants.InvertAndScale(34f));
                 g.DrawImage(AtlasResources.IMAGE_TOMBSTONE_MOUNDS, (int)(num12 * Constants.S), (int)((num13 - num10) * Constants.S) + (int)Constants.InvertAndScale(34f), theSrcRect2);
             }
+
+            if (_isMindControlled)
+            {
+                g.SetColorizeImages(true);
+                g.SetColor(GameConstants.ZOMBIE_MINDCONTROLLED_COLOR);
+            }
+
         }
 
         public void GridItemDie()
@@ -761,6 +770,24 @@ namespace Lawn
             }
             reanimation.Draw(g);
             reanimation.mEnableExtraAdditiveDraw = false;
+        }
+
+        public void TryPlant(int x, int y)
+        {
+            
+            if (!mApp.mEasyPlantingCheat)
+            {
+                int currentPlantCost = mBoard.GetCurrentPlantCost(mBoard.mCursorObject.mType, mBoard.mCursorObject.mImitaterType);
+                if (!mBoard.TakeSunMoney(currentPlantCost))
+                {
+                    return;
+                }
+            }
+
+            SeedPacket seedPacket = mBoard.mSeedBank.mSeedPackets[mBoard.mCursorObject.mSeedBankIndex];
+            seedPacket.WasPlanted();
+            mApp.PlayFoley(FoleyType.Plant);
+            mBoard.ClearCursor();
         }
 
         public LawnApp mApp;
