@@ -134,6 +134,7 @@ namespace Lawn
         Quickplay50,
 
         ChallengeZombiquarium,
+        ZombieVersusZombie,
 
         GameModeCount,
 

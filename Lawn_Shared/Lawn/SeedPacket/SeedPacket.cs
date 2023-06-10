@@ -257,7 +257,7 @@ namespace Lawn
                 {
                     g.DrawImage(AtlasResources.IMAGE_SEEDPACKET_CRATER, x, y);
                 }
-                else if (GlobalStaticVars.gLawnApp.IsIZombieLevel())
+                else if (GlobalStaticVars.gLawnApp.IsIZombieLevel() || GlobalStaticVars.gLawnApp.mGameMode == GameMode.ZombieVersusZombie)
                 {
                     SeedPacket.DrawIZombieSeedPacket(GlobalStaticVars.gLawnApp, g, x, y, seedType, thePercentDark, theGrayness, theDrawCost, theUseCurrentCost, theDrawBackground, theDrawCostBackground);
                 }
@@ -364,8 +364,18 @@ namespace Lawn
             g.SetScale(1f, 1f, 0f, 0f);
         }
 
-        private static ZombieType GetIZombieTypeFromSeed(SeedType theSeedType)
+        public static ZombieType GetIZombieTypeFromSeed(SeedType theSeedType)
         {
+
+          
+            if(Enum.TryParse(typeof(ZombieType), theSeedType.ToString(), true, out object z))
+            {
+                if(z is ZombieType zomb)
+                {
+                    return zomb;
+                }
+            }
+                
             switch (theSeedType)
             {
             case SeedType.ZombieNormal:

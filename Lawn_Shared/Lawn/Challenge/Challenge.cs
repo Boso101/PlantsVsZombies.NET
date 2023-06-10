@@ -4151,73 +4151,17 @@ namespace Lawn
 
         public static ZombieType IZombieSeedTypeToZombieType(SeedType theSeedType)
         {
-            if (theSeedType == SeedType.ZombieNormal)
-            {
-                return ZombieType.Normal;
-            }
-            if (theSeedType == SeedType.ZombieTrafficCone)
-            {
-                return ZombieType.TrafficCone;
-            }
-            if (theSeedType == SeedType.ZombiePolevaulter)
-            {
-                return ZombieType.Polevaulter;
-            }
-            if (theSeedType == SeedType.ZombiePail)
-            {
-                return ZombieType.Pail;
-            }
-            if (theSeedType == SeedType.ZombieLadder)
-            {
-                return ZombieType.Ladder;
-            }
-            if (theSeedType == SeedType.ZombieDigger)
-            {
-                return ZombieType.Digger;
-            }
-            if (theSeedType == SeedType.ZombieBungee)
-            {
-                return ZombieType.Bungee;
-            }
-            if (theSeedType == SeedType.ZombieFootball)
-            {
-                return ZombieType.Football;
-            }
-            if (theSeedType == SeedType.ZombieBalloon)
-            {
-                return ZombieType.Balloon;
-            }
-            if (theSeedType == SeedType.ZombieScreenDoor)
-            {
-                return ZombieType.Door;
-            }
-            if (theSeedType == SeedType.Zomboni)
-            {
-                return ZombieType.Zamboni;
-            }
-            if (theSeedType == SeedType.ZombiePogo)
-            {
-                return ZombieType.Pogo;
-            }
-            if (theSeedType == SeedType.ZombieDancer)
-            {
-                return ZombieType.Dancer;
-            }
-            if (theSeedType == SeedType.ZombieGargantuar)
-            {
-                return ZombieType.Gargantuar;
-            }
-            if (theSeedType == SeedType.ZombieImp)
-            {
-                return ZombieType.Imp;
-            }
+            ZombieType zomb = SeedPacket.GetIZombieTypeFromSeed(theSeedType);
+            if (zomb != ZombieType.Invalid) 
+                return zomb;
             Debug.ASSERT(false);
             return ZombieType.Normal;
         }
 
         public static bool IsZombieSeedType(SeedType theSeedType)
         {
-            return theSeedType == SeedType.ZombieNormal || theSeedType == SeedType.ZombieTrafficCone || theSeedType == SeedType.ZombiePolevaulter || theSeedType == SeedType.ZombiePail || theSeedType == SeedType.ZombieLadder || theSeedType == SeedType.ZombieDigger || theSeedType == SeedType.ZombieBungee || theSeedType == SeedType.ZombieFootball || theSeedType == SeedType.ZombieBalloon || theSeedType == SeedType.ZombieScreenDoor || theSeedType == SeedType.Zomboni || theSeedType == SeedType.ZombiePogo || theSeedType == SeedType.ZombieDancer || theSeedType == SeedType.ZombieGargantuar || theSeedType == SeedType.ZombieImp;
+            int val = (int)theSeedType;
+            return val > 60 && val < 86;
         }
 
         public void IZombieMouseDownWithZombie(int x, int y, int theClickCount)

@@ -653,7 +653,7 @@ namespace Lawn
                 //Image imageInAtlasById = AtlasResources.GetImageInAtlasById((int)(10300 + mSeedType));
                 g.SetColorizeImages(true);
                 g.SetColor(new Color(255, 255, 255, (int)(255f * Math.Min(1f, mDisappearCountdown / 100f))));
-                Plant.DrawSeedType(g, mSeedType, mImitaterType, DrawVariation.Normal, num * Constants.S/* + imageInAtlasById.GetCelWidth() / 2 */+ Constants.Plant_Squished_Offset.X, num2 * Constants.S + (float)Constants.New.Board_GridCellSizeY_6Rows * (1-ratioSquished) * Constants.S/*+ imageInAtlasById.GetCelHeight()*/ + Constants.Plant_Squished_Offset.Y);
+                Plant.DrawSeedType(g, mSeedType, mImitaterType, DrawVariation.Normal, num * Constants.S/* + imageInAtlasById.GetCelWidth() / 2 */+ Constants.Plant_Squished_Offset.X, num2 * Constants.S + (float)Constants.New.Board_GridCellSizeY_6Rows * (1 - ratioSquished) * Constants.S/*+ imageInAtlasById.GetCelHeight()*/ + Constants.Plant_Squished_Offset.Y);
                 g.SetScale(1f, 1f, 0f, 0f);
                 g.SetColorizeImages(false);
                 return;
@@ -1067,7 +1067,7 @@ namespace Lawn
                 }
             }
             Debug.ASSERT(false);
-            IL_157:
+        IL_157:
             if (mSeedType == SeedType.Kernelpult && thePlantWeapon == PlantWeapon.Secondary)
             {
                 projectileType = ProjectileType.Butter;
@@ -1872,8 +1872,18 @@ namespace Lawn
                 PlantDefinition plantDefinition = Plant.GetPlantDefinition(theImitaterType);
                 return plantDefinition.mRefreshTime;
             }
-            PlantDefinition plantDefinition2 = Plant.GetPlantDefinition(theSeedType);
-            return plantDefinition2.mRefreshTime;
+
+            if (theSeedType > SeedType.SeedTypeCount)
+            {
+                return 0;
+            }
+            else
+            {
+
+                PlantDefinition plantDefinition2 = Plant.GetPlantDefinition(theSeedType);
+                return plantDefinition2.mRefreshTime;
+            }
+
         }
 
         public static bool IsNocturnal(SeedType theSeedtype)
@@ -1922,7 +1932,7 @@ namespace Lawn
                     mApp.PlayFoley(FoleyType.Wakeup);
                 }
                 //if (mWakeUpCounter >= 0 && mWakeUpCounter < 3)
-                if (mWakeUpCounter == 0) 
+                if (mWakeUpCounter == 0)
                 {
                     SetSleeping(false);
                 }
@@ -2146,7 +2156,7 @@ namespace Lawn
                         }
                     }
                 }
-                IL_108:;
+            IL_108:;
             }
         }
 
@@ -2302,10 +2312,10 @@ namespace Lawn
                     }
                     goto IL_27E;
                 }
-                IL_15B:
+            IL_15B:
                 result = new TRect(mX + 20, mY, mWidth - 50, mHeight);
                 return result;
-                IL_27E:
+            IL_27E:
                 result = new TRect(mX + 60, mY, 800, mHeight);
             }
             return result;
@@ -2679,7 +2689,7 @@ namespace Lawn
                 GlobalStaticVars.gLawnApp.mReanimatorCache.DrawCachedZombie(g, thePosX, thePosY, theZombieType);
                 return;
             }
-            if (theSeedType2 == SeedType.Sprout) 
+            if (theSeedType2 == SeedType.Sprout)
             {
                 Image image = AtlasResources.IMAGE_CACHED_MARIGOLD;
                 int num = (int)(thePosX - (float)(image.mWidth));// * g.mScaleX);
@@ -3079,7 +3089,7 @@ namespace Lawn
                         }
                     }
                 }
-                IL_322:;
+            IL_322:;
             }
             if (zombie != null)
             {
@@ -5350,7 +5360,7 @@ namespace Lawn
 
         public void GoldMagnetFindTargets()
         {
-            for (;;)
+            for (; ; )
             {
                 MagnetItem freeMagnetItem = GetFreeMagnetItem();
                 if (freeMagnetItem == null)

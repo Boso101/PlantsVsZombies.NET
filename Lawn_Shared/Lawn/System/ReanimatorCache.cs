@@ -53,12 +53,15 @@ namespace Lawn
             MemoryImage image = null;
             if (theDrawVariation == DrawVariation.Normal || theDrawVariation == DrawVariation.Imitater || theDrawVariation == DrawVariation.ImitaterLess)
             {
-                if (mPlantImages[(int)theSeedType] == null)
+                if (mPlantImages.Count < (int)theSeedType)
                 {
                     Debug.Log(DebugType.Warn, $"(!!) ReanimatorCache uninitialized plant variation ({theSeedType}).\n");
+                    image = mPlantImages[0];
                     return;
                 }
+
                 image = mPlantImages[(int)theSeedType];
+
             }
             else 
             {

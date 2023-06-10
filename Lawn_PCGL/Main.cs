@@ -107,7 +107,7 @@ namespace Sexy
             Main.GamerServicesComp = new GamerServicesComponent(this);
             base.Components.Add(Main.GamerServicesComp);
             ReportAchievement.Initialise();
-            IronPyInteractive.Serve();
+            //IronPyInteractive.Serve();
             base.Initialize();
             //
             // IME Support

@@ -79,6 +79,7 @@ namespace Lawn
         ZombieDancer,
         ZombieGargantuar,
         ZombieImp,
+        All,
         SeedsInChooserCount = 49,
         None = -1
     }

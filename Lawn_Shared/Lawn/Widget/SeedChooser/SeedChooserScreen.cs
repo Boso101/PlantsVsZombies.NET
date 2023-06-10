@@ -122,7 +122,7 @@ namespace Lawn
                 mStoreButton.mBtnNoDraw = true;
                 mStoreButton.mDisabled = true;
             }
-            for (SeedType i = 0; i < SeedType.SeedsInChooserCount; i++)
+            for (SeedType i = 0; i < SeedType.All; i++)
             {
                 ChosenSeed chosenSeed = new ChosenSeed();
                 chosenSeed.mSeedType = i;
@@ -1147,7 +1147,7 @@ namespace Lawn
 
         public ScrollWidget mScrollWidget;
 
-        public ChosenSeed[] mChosenSeeds = new ChosenSeed[(int)SeedType.SeedTypeCount];
+        public ChosenSeed[] mChosenSeeds = new ChosenSeed[(int)SeedType.All];
 
         public LawnApp mApp;
 
