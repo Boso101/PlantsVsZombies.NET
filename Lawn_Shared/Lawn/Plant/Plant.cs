@@ -1833,8 +1833,13 @@ namespace Lawn
                     PlantDefinition plantDefinition = Plant.GetPlantDefinition(theImitaterType);
                     return plantDefinition.mSeedCost;
                 }
+
+                if (theSeedType == SeedType.SeedsInChooserCount || theSeedType == SeedType.SeedTypeCount)
+                {
+                    return 0;
+                }
                 PlantDefinition plantDefinition2 = Plant.GetPlantDefinition(theSeedType);
-                if(plantDefinition2 == null)
+                if (plantDefinition2 == null)
                 {
                     return 0;
                 }
@@ -5502,6 +5507,11 @@ namespace Lawn
         public static PlantDefinition GetPlantDefinition(SeedType theSeedtype)
         {
             Debug.ASSERT(theSeedtype >= SeedType.Peashooter && theSeedtype < SeedType.All);
+            if ((int)theSeedtype > GameConstants.gPlantDefs.Length)
+            {
+                return GameConstants.gPlantDefs[0];
+
+            }
             Debug.ASSERT(GameConstants.gPlantDefs[(int)theSeedtype].mSeedType == theSeedtype);
             return GameConstants.gPlantDefs[(int)theSeedtype];
         }

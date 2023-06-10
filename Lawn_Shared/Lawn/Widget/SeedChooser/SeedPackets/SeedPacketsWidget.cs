@@ -51,7 +51,7 @@ namespace Lawn
 
         public void DrawPackets(Graphics g, bool theDrawCost, bool theDrawBackground)
         {
-            int num = 44;
+            int num = (int)SeedType.All;
             if (mRows == 12)
             {
                 num = 48;
@@ -85,7 +85,7 @@ namespace Lawn
                     }
                 }
             }
-            for (SeedType j = 0; j < SeedType.SeedsInChooserCount; j++)
+            for (SeedType j = 0; j < SeedType.All; j++)
             {
                 if (mApp.HasSeedType(j))
                 {

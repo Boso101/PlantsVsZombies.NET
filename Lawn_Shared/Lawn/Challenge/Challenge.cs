@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Sexy;
 using Sexy.TodLib;
+using static IronPython.Modules._ast;
 
 namespace Lawn
 {
@@ -5496,6 +5497,7 @@ namespace Lawn
 
         public void IZombiePlaceZombie(ZombieType theZombieType, int theGridX, int theGridY, bool mindControl = false)
         {
+            mApp.AddTodParticle(theGridX, theGridY, (int)ParticleEffect.GraveStoneRise, ParticleEffect.GraveStoneRise);
             Zombie zombie = mBoard.AddZombieInRow(theZombieType, theGridY, 0);
 
             if (mindControl)
