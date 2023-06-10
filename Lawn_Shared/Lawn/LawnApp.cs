@@ -2042,7 +2042,7 @@ namespace Lawn
             int level = mPlayerInfo.GetLevel();
             if (HasFinishedAdventure() || level > 50)
             {
-                return 49;
+                return (int)SeedType.All;
             }
             int awardSeedForLevel = (int)GetAwardSeedForLevel(level);
             return Math.Min(49, awardSeedForLevel);

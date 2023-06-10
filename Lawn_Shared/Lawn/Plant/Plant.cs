@@ -1834,6 +1834,10 @@ namespace Lawn
                     return plantDefinition.mSeedCost;
                 }
                 PlantDefinition plantDefinition2 = Plant.GetPlantDefinition(theSeedType);
+                if(plantDefinition2 == null)
+                {
+                    return 0;
+                }
                 return plantDefinition2.mSeedCost;
             }
             }
@@ -5497,7 +5501,7 @@ namespace Lawn
 
         public static PlantDefinition GetPlantDefinition(SeedType theSeedtype)
         {
-            Debug.ASSERT(theSeedtype >= SeedType.Peashooter && theSeedtype < SeedType.SeedTypeCount);
+            Debug.ASSERT(theSeedtype >= SeedType.Peashooter && theSeedtype < SeedType.All);
             Debug.ASSERT(GameConstants.gPlantDefs[(int)theSeedtype].mSeedType == theSeedtype);
             return GameConstants.gPlantDefs[(int)theSeedtype];
         }

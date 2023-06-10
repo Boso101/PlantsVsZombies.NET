@@ -26,7 +26,7 @@ namespace Lawn
             mChooseState = SeedChooserState.Normal;
             mViewLawnTime = 0;
             mDoStartButton = false;
-            mSeedPacketsWidget = new SeedPacketsWidget(mApp, Has12Rows() ? 12 : 11, false, this);
+            mSeedPacketsWidget = new SeedPacketsWidget(mApp, 22, false, this);
             mScrollWidget = new ScrollWidget();
             mScrollWidget.Resize(Constants.SCROLL_AREA_OFFSET_X, Constants.SCROLL_AREA_OFFSET_Y, mSeedPacketsWidget.mWidth + (int)Constants.InvertAndScale(10f), (int)Constants.InvertAndScale(227f));
             mScrollWidget.AddWidget(mSeedPacketsWidget);
@@ -200,7 +200,7 @@ namespace Lawn
             mLastMouseY = mApp.mWidgetManager.mLastMouseY;
             //mSeedChooserAge += 3;
             mSeedChooserAge++;
-            for (SeedType i = 0; i < SeedType.SeedsInChooserCount; i++)
+            for (SeedType i = 0; i < SeedType.All; i++)
             {
                 if (mApp.HasSeedType(i))
                 {
@@ -310,7 +310,7 @@ namespace Lawn
             }
             g.SetColorizeImages(false);
             bool flag = false;
-            for (SeedType i = 0; i < SeedType.SeedsInChooserCount; i++)
+            for (SeedType i = 0; i < SeedType.All; i++)
             {
                 if (mApp.HasSeedType(i))
                 {
@@ -408,7 +408,7 @@ namespace Lawn
             base.MouseDown(x, y, theClickCount);
             if (mSeedsInFlight > 0)
             {
-                for (SeedType i = 0; i < SeedType.SeedsInChooserCount; i++)
+                for (SeedType i = 0; i < SeedType.All; i++)
                 {
                     ChosenSeed chosenSeed = mChosenSeeds[(int)i];
                     LandFlyingSeed(ref chosenSeed);
@@ -626,7 +626,7 @@ namespace Lawn
 
         public SeedType FindSeedInBank(int theIndexInBank)
         {
-            for (SeedType i = 0; i < SeedType.SeedsInChooserCount; i++)
+            for (SeedType i = 0; i < SeedType.All; i++)
             {
                 if (mApp.HasSeedType(i))
                 {
@@ -688,7 +688,7 @@ namespace Lawn
 
         public bool PickedPlantType(SeedType theSeedType)
         {
-            for (SeedType i = 0; i < SeedType.SeedsInChooserCount; i++)
+            for (SeedType i = 0; i < SeedType.All; i++)
             {
                 ChosenSeed chosenSeed = mChosenSeeds[(int)i];
                 if (chosenSeed.mSeedState == ChosenSeedState.SEED_IN_BANK)

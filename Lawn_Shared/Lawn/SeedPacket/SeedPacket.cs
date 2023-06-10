@@ -211,6 +211,7 @@ namespace Lawn
         public static void DrawSmallSeedPacket(Graphics g, float x, float y, SeedType theSeedType, SeedType theImitaterType, float thePercentDark, int theGrayness, bool theDrawCost, bool theUseCurrentCost, bool theDrawBackground, bool theDrawCostBackground)
         {
             SeedType seedType = theSeedType;
+            int val = (int)seedType;
             if (theSeedType == SeedType.Imitater && theImitaterType != SeedType.None)
             {
                 seedType = theImitaterType;
@@ -257,7 +258,7 @@ namespace Lawn
                 {
                     g.DrawImage(AtlasResources.IMAGE_SEEDPACKET_CRATER, x, y);
                 }
-                else if (GlobalStaticVars.gLawnApp.IsIZombieLevel() || GlobalStaticVars.gLawnApp.mGameMode == GameMode.ZombieVersusZombie)
+                else if ((val >= 60 && val < 75) || GlobalStaticVars.gLawnApp.IsIZombieLevel() || GlobalStaticVars.gLawnApp.mGameMode == GameMode.ZombieVersusZombie)
                 {
                     SeedPacket.DrawIZombieSeedPacket(GlobalStaticVars.gLawnApp, g, x, y, seedType, thePercentDark, theGrayness, theDrawCost, theUseCurrentCost, theDrawBackground, theDrawCostBackground);
                 }

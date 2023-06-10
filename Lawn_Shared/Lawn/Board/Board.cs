@@ -3909,12 +3909,14 @@ namespace Lawn
 
         public void MouseUpWithPlant(int x, int y, int theClickCount)
         {
-            if (mApp.IsIZombieLevel())
+         
+            SeedType seedTypeInCursor = GetSeedTypeInCursor();
+            bool shouldMindControl = mApp.IsIZombieLevel() == false;
+            if (mApp.IsIZombieLevel() || Challenge.IsZombieSeedType(seedTypeInCursor))
             {
-                mChallenge.IZombieMouseDownWithZombie(x, y, theClickCount);
+                mChallenge.IZombieMouseDownWithZombie(x, y, theClickCount, shouldMindControl);
                 return;
             }
-            SeedType seedTypeInCursor = GetSeedTypeInCursor();
             int num = PlantingPixelToGridX((int)(x * Constants.IS), (int)(y * Constants.IS), seedTypeInCursor);
             int num2 = PlantingPixelToGridY((int)(x * Constants.IS), (int)(y * Constants.IS), seedTypeInCursor);
             if (num < 0 || num >= Constants.GRIDSIZEX || num2 < 0 || num2 >= Constants.MAX_GRIDSIZEY)
@@ -4146,6 +4148,11 @@ namespace Lawn
             }
             else if (mCursorObject.mCursorType == CursorType.PlantFromBank)
             {
+                if(Challenge.IsZombieSeedType(seedTypeInCursor))
+                {
+
+                    return;
+                }
                 Plant plant = AddPlant(num, num2, mCursorObject.mType, mCursorObject.mImitaterType);
                 if (flag)
                 {

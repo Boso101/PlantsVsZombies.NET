@@ -2250,9 +2250,9 @@ namespace Lawn
             }
             mChallengeStateCounter--;
             if (
-                (mChallengeStateCounter == GameConstants.STORM_FLASH_TIME * 2 && mChallengeState == ChallengeState.StormFlash1) 
-             || (mChallengeStateCounter == GameConstants.STORM_FLASH_TIME && mChallengeState == ChallengeState.StormFlash1) 
-             || (mChallengeStateCounter == GameConstants.STORM_FLASH_TIME * 2 && mChallengeState == ChallengeState.StormFlash2) 
+                (mChallengeStateCounter == GameConstants.STORM_FLASH_TIME * 2 && mChallengeState == ChallengeState.StormFlash1)
+             || (mChallengeStateCounter == GameConstants.STORM_FLASH_TIME && mChallengeState == ChallengeState.StormFlash1)
+             || (mChallengeStateCounter == GameConstants.STORM_FLASH_TIME * 2 && mChallengeState == ChallengeState.StormFlash2)
              || (mChallengeStateCounter == GameConstants.STORM_FLASH_TIME && mChallengeState == ChallengeState.StormFlash3)
             )
             {
@@ -2968,10 +2968,10 @@ namespace Lawn
                     goto IL_D4E;
                 }
                 todWeightedArray.mWeight = 0;
-                IL_E81:
+            IL_E81:
                 j++;
                 continue;
-                IL_D4E:
+            IL_D4E:
                 if (seedType == SeedType.Lilypad)
                 {
                     int num5 = mBoard.CountPlantByType(seedType);
@@ -4152,7 +4152,7 @@ namespace Lawn
         public static ZombieType IZombieSeedTypeToZombieType(SeedType theSeedType)
         {
             ZombieType zomb = SeedPacket.GetIZombieTypeFromSeed(theSeedType);
-            if (zomb != ZombieType.Invalid) 
+            if (zomb != ZombieType.Invalid)
                 return zomb;
             Debug.ASSERT(false);
             return ZombieType.Normal;
@@ -4161,10 +4161,10 @@ namespace Lawn
         public static bool IsZombieSeedType(SeedType theSeedType)
         {
             int val = (int)theSeedType;
-            return val > 60 && val < 86;
+            return val >= 60 && val < 86;
         }
 
-        public void IZombieMouseDownWithZombie(int x, int y, int theClickCount)
+        public void IZombieMouseDownWithZombie(int x, int y, int theClickCount, bool shouldMindControl = false)
         {
             if (theClickCount < 0)
             {
@@ -4194,7 +4194,7 @@ namespace Lawn
                 mBoard.ClearAdvice(AdviceType.IZombieLeftOfLine);
                 mBoard.ClearAdvice(AdviceType.IZombieNotPassedLine);
                 ZombieType theZombieType = Challenge.IZombieSeedTypeToZombieType(mBoard.mCursorObject.mType);
-                IZombiePlaceZombie(theZombieType, num, num2);
+                IZombiePlaceZombie(theZombieType, num, num2, shouldMindControl);
                 Debug.ASSERT(mBoard.mCursorObject.mSeedBankIndex >= 0 && mBoard.mCursorObject.mSeedBankIndex < mBoard.mSeedBank.mNumPackets);
                 SeedPacket seedPacket = mBoard.mSeedBank.mSeedPackets[mBoard.mCursorObject.mSeedBankIndex];
                 seedPacket.WasPlanted();
@@ -5494,9 +5494,15 @@ namespace Lawn
             mBoard.FadeOutLevel();
         }
 
-        public void IZombiePlaceZombie(ZombieType theZombieType, int theGridX, int theGridY)
+        public void IZombiePlaceZombie(ZombieType theZombieType, int theGridX, int theGridY, bool mindControl = false)
         {
             Zombie zombie = mBoard.AddZombieInRow(theZombieType, theGridY, 0);
+
+            if (mindControl)
+            {
+                zombie.StartMindControlled();
+
+            }
             if (theZombieType == ZombieType.Bungee)
             {
                 zombie.mTargetCol = theGridX;
@@ -5507,6 +5513,7 @@ namespace Lawn
                 return;
             }
             zombie.mPosX = mBoard.GridToPixelX(theGridX, theGridY) - 30f;
+
         }
 
         public void WhackAZombieUpdate()
