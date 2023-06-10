@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization.Formatters;
 using Microsoft.Xna.Framework;
 using Sexy;
 using Sexy.TodLib;
@@ -4195,7 +4196,17 @@ namespace Lawn
                 mBoard.ClearAdvice(AdviceType.IZombieLeftOfLine);
                 mBoard.ClearAdvice(AdviceType.IZombieNotPassedLine);
                 ZombieType theZombieType = Challenge.IZombieSeedTypeToZombieType(mBoard.mCursorObject.mType);
-                IZombiePlaceZombie(theZombieType, num, num2, shouldMindControl);
+
+                if(shouldMindControl == false)
+                {
+                    IZombiePlaceZombie(theZombieType, num, num2);
+
+                }
+                else
+                {
+                    IZombiePlaceZombie(theZombieType, num, num2, (zombie) => zombie.StartMindControlled());
+                }
+
                 Debug.ASSERT(mBoard.mCursorObject.mSeedBankIndex >= 0 && mBoard.mCursorObject.mSeedBankIndex < mBoard.mSeedBank.mNumPackets);
                 SeedPacket seedPacket = mBoard.mSeedBank.mSeedPackets[mBoard.mCursorObject.mSeedBankIndex];
                 seedPacket.WasPlanted();
@@ -5495,16 +5506,11 @@ namespace Lawn
             mBoard.FadeOutLevel();
         }
 
-        public void IZombiePlaceZombie(ZombieType theZombieType, int theGridX, int theGridY, bool mindControl = false)
+        public void IZombiePlaceZombie(ZombieType theZombieType, int theGridX, int theGridY, Action<Zombie> onSpawned = null)
         {
             mApp.AddTodParticle(theGridX, theGridY, (int)ParticleEffect.GraveStoneRise, ParticleEffect.GraveStoneRise);
             Zombie zombie = mBoard.AddZombieInRow(theZombieType, theGridY, 0);
-
-            if (mindControl)
-            {
-                zombie.StartMindControlled();
-
-            }
+            onSpawned?.Invoke(zombie);
             if (theZombieType == ZombieType.Bungee)
             {
                 zombie.mTargetCol = theGridX;
