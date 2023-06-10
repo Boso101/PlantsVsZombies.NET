@@ -1670,10 +1670,19 @@ namespace Lawn
                     ZombieType theZombieType = PickGraveRisingZombieType(num);
                     ZombieDefinition zombieDefinition = Zombie.GetZombieDefinition(theZombieType);
                     Zombie zombie = AddZombie(theZombieType, mCurrentWave);
+
+                  
+
                     if (zombie == null)
                     {
                         return;
                     }
+
+                    if (gridItem is IMindControllable mind && mind.IsMindControlled)
+                    {
+                        zombie.IsMindControlled = true;
+                    }
+
                     zombie.RiseFromGrave(gridItem.mGridX, gridItem.mGridY);
                     num -= zombieDefinition.mZombieValue;
                     num = Math.Max(1, num);

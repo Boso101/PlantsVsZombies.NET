@@ -13,7 +13,7 @@ namespace Lawn
         Vault,
         Ladder
     }
-    public/*internal*/ class Zombie : GameObject, IComparable
+    public/*internal*/ class Zombie : GameObject, IComparable, IMindControllable
     {
         public static void PreallocateMemory()
         {
@@ -10981,6 +10981,8 @@ namespace Lawn
         public bool mHasHelm = true;
 
         public bool mHasShield = true;
+
+        public bool IsMindControlled { get => mMindControlled; set => mMindControlled = value; } 
 
         public enum ZombieRenderLayerOffset //Prefix: ZOMBIE_LAYER_OFFSET
         {

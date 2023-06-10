@@ -5,8 +5,11 @@ using Sexy.TodLib;
 
 namespace Lawn
 {
-    public/*internal*/ class GridItem
+    public/*internal*/ class GridItem : IMindControllable
     {
+        private bool _isMindControlled;
+
+        
         public static GridItem GetNewGridItem()
         {
             if (GridItem.unusedObjects.Count > 0)
@@ -807,5 +810,7 @@ namespace Lawn
         public int mMotionTrailCount;
 
         private static Stack<GridItem> unusedObjects = new Stack<GridItem>();
+
+        public bool IsMindControlled { get => _isMindControlled; set => _isMindControlled = value; }
     }
 }
