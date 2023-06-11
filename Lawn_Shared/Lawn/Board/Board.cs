@@ -1690,6 +1690,24 @@ namespace Lawn
             }
         }
 
+        private bool TryPlant()
+        {
+            if (!mApp.mEasyPlantingCheat)
+            {
+                int currentPlantCost = GetCurrentPlantCost(mCursorObject.mType, mCursorObject.mImitaterType);
+                if (!TakeSunMoney(currentPlantCost))
+                {
+                    return false;
+                }
+            }
+
+            SeedPacket seedPacket = mSeedBank.mSeedPackets[mCursorObject.mSeedBankIndex];
+            seedPacket.WasPlanted();
+            mApp.PlayFoley(FoleyType.Plant);
+            ClearCursor();
+            return true;
+        }
+
         public PlantingReason CanPlantAt(int theGridX, int theGridY, SeedType theType)
         {
             if (theGridX < 0 || theGridX >= Constants.GRIDSIZEX || theGridY < 0 || theGridY >= Constants.MAX_GRIDSIZEY)
@@ -3934,7 +3952,18 @@ namespace Lawn
             int num = PlantingPixelToGridX((int)(x * Constants.IS), (int)(y * Constants.IS), seedTypeInCursor);
             int num2 = PlantingPixelToGridY((int)(x * Constants.IS), (int)(y * Constants.IS), seedTypeInCursor);
 
+            if (seedTypeInCursor == SeedType.Grave)
+            {
+                if (CanAddGraveStoneAt(num, num2) == false || TryPlant() == false)
+                {
+                    return;
+                }
 
+                GridItem grave = AddAGraveStone(num, num2);
+                grave.IsMindControlled = true;
+           
+
+            }
             if (seedTypeInCursor == SeedType.ZombieFlag)
             {
                 if (TakeSunMoney(GetCurrentPlantCost(mCursorObject.mType, mCursorObject.mImitaterType)))

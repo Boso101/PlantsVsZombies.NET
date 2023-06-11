@@ -1834,6 +1834,8 @@ namespace Lawn
                 return 200;
             case SeedType.ZombieCatapult:
                 return 250;
+            case SeedType.Grave:
+                return 75;
             default:
             {
                 if (theSeedType == SeedType.Imitater && theImitaterType != SeedType.None)

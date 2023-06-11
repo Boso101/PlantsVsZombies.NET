@@ -9,7 +9,7 @@ namespace Lawn
     {
         private bool _isMindControlled;
 
-        
+
         public static GridItem GetNewGridItem()
         {
             if (GridItem.unusedObjects.Count > 0)
@@ -23,6 +23,7 @@ namespace Lawn
 
         public void PrepareForReuse()
         {
+            _isMindControlled = false;
             GridItem.unusedObjects.Push(this);
         }
 
@@ -59,6 +60,7 @@ namespace Lawn
             mTransparentCounter = 0;
             mSunCount = 0;
             mMotionTrailCount = 0;
+            _isMindControlled = false;
         }
 
         public bool SaveToFile(Sexy.Buffer b)
@@ -87,6 +89,7 @@ namespace Lawn
                 b.WriteLong(mSunCount);
                 b.WriteLong(mTransparentCounter);
                 b.WriteLong((int)mZombieType);
+                b.WriteBoolean(_isMindControlled);
             }
             catch (Exception ex)
             {
@@ -124,6 +127,7 @@ namespace Lawn
                 mSunCount = b.ReadLong();
                 mTransparentCounter = b.ReadLong();
                 mZombieType = (ZombieType)b.ReadLong();
+                _isMindControlled = b.ReadBoolean();
             }
             catch (Exception ex)
             {
@@ -225,6 +229,7 @@ namespace Lawn
 
         public void DrawGraveStone(Graphics g)
         {
+
             if (mGridItemCounter <= 0)
             {
                 return;
@@ -261,21 +266,38 @@ namespace Lawn
             TRect theSrcRect = new TRect((int)(num4 * num6 * Constants.S), (int)((num5 * num7 + num11) * Constants.S), (int)(num4 * Constants.S), (int)((num8 - num9 - num11) * Constants.S));
             int num12 = mBoard.GridToPixelX(mGridX, mGridY) - 4 + num2;
             int num13 = mBoard.GridToPixelY(mGridX, mGridY) + num5 + num3;
-            g.DrawImage(AtlasResources.IMAGE_TOMBSTONES, (int)(num12 * Constants.S), (int)((num13 - num8 + num11) * Constants.S + 0.5), theSrcRect);
-           
-            
+
+            if (_isMindControlled == false)
+            {
+     
+                g.DrawImage(AtlasResources.IMAGE_TOMBSTONES, (int)(num12 * Constants.S), (int)((num13 - num8 + num11) * Constants.S + 0.5), theSrcRect);
+
+            }
+            else
+            {
+                g.SetColorizeImages(true);
+                g.SetColor(GameConstants.ZOMBIE_MINDCONTROLLED_COLOR);
+                g.SetDrawMode(Graphics.DrawMode.DRAWMODE_ADDITIVE);
+                g.DrawImageMirror(AtlasResources.IMAGE_TOMBSTONES, (int)(num12 * Constants.S), (int)((num13 - num8 + num11) * Constants.S + 0.5), theSrcRect);
+                g.SetDrawMode(Graphics.DrawMode.DRAWMODE_NORMAL);
+                g.DrawImageMirror(AtlasResources.IMAGE_TOMBSTONES, (int)(num12 * Constants.S), (int)((num13 - num8 + num11) * Constants.S + 0.5), theSrcRect);
+
+            }
+
+
             int num14 = (int)(num10 * Constants.S);
             if (num14 >= (int)Constants.InvertAndScale(34f))
             {
                 TRect theSrcRect2 = new TRect(AtlasResources.IMAGE_TOMBSTONE_MOUNDS.GetCelWidth() * num6, AtlasResources.IMAGE_TOMBSTONE_MOUNDS.GetCelHeight() * num7, AtlasResources.IMAGE_TOMBSTONE_MOUNDS.GetCelWidth(), (int)(num10 * Constants.S) - (int)Constants.InvertAndScale(34f));
+
+
                 g.DrawImage(AtlasResources.IMAGE_TOMBSTONE_MOUNDS, (int)(num12 * Constants.S), (int)((num13 - num10) * Constants.S) + (int)Constants.InvertAndScale(34f), theSrcRect2);
+
+
+
             }
 
-            if (_isMindControlled)
-            {
-                g.SetColorizeImages(true);
-                g.SetColor(GameConstants.ZOMBIE_MINDCONTROLLED_COLOR);
-            }
+
 
         }
 
@@ -772,22 +794,10 @@ namespace Lawn
             reanimation.mEnableExtraAdditiveDraw = false;
         }
 
-        public void TryPlant(int x, int y)
+        public bool TryPlant(int x, int y)
         {
-            
-            if (!mApp.mEasyPlantingCheat)
-            {
-                int currentPlantCost = mBoard.GetCurrentPlantCost(mBoard.mCursorObject.mType, mBoard.mCursorObject.mImitaterType);
-                if (!mBoard.TakeSunMoney(currentPlantCost))
-                {
-                    return;
-                }
-            }
+            return true;
 
-            SeedPacket seedPacket = mBoard.mSeedBank.mSeedPackets[mBoard.mCursorObject.mSeedBankIndex];
-            seedPacket.WasPlanted();
-            mApp.PlayFoley(FoleyType.Plant);
-            mBoard.ClearCursor();
         }
 
         public LawnApp mApp;

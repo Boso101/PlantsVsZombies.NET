@@ -3,6 +3,6 @@
     public interface IPlantable
     {
 
-        void TryPlant(int x, int y);
+        bool TryPlant(int x, int y);
     }
 }

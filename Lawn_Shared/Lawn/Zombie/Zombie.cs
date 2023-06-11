@@ -6783,7 +6783,7 @@ namespace Lawn
             }
             bool flag = false;
             plant = FindPlantTarget(ZombieAttackType.Chew);
-            if (plant != null)
+            if (this.mMindControlled == false && plant != null)
             {
                 flag = true;
             }

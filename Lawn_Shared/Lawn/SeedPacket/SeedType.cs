@@ -90,6 +90,7 @@ namespace Lawn
         SquashHead,
         TallnutHead,
         ZombieFlag,
+        Grave,
         All,
         SeedsInChooserCount = 49,
         None = -1

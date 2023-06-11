@@ -984,9 +984,9 @@ namespace Sexy
 
         protected FrameCounter mFrameCounter = new FrameCounter();
 
-        protected bool mDebugScreenEnabled;
+        protected bool mDebugScreenEnabled = true;
 
-        public bool mDebugKeysEnabled;
+        public bool mDebugKeysEnabled = true;
 
         private IEnumerable<bool> mLoadingThreadAfterWorksSteps;
 
