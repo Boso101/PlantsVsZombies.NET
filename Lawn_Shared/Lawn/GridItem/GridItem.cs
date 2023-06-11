@@ -278,9 +278,9 @@ namespace Lawn
                 g.SetColorizeImages(true);
                 g.SetColor(GameConstants.ZOMBIE_MINDCONTROLLED_COLOR);
                 g.SetDrawMode(Graphics.DrawMode.DRAWMODE_ADDITIVE);
-                g.DrawImageMirror(AtlasResources.IMAGE_TOMBSTONES, (int)(num12 * Constants.S), (int)((num13 - num8 + num11) * Constants.S + 0.5), theSrcRect);
+                g.DrawImageMirror(AtlasResources.IMAGE_TOMBSTONES, (int)(num12 * Constants.S), (int)((num13 - num8 + num11) * Constants.S + 0.5), theSrcRect, true);
                 g.SetDrawMode(Graphics.DrawMode.DRAWMODE_NORMAL);
-                g.DrawImageMirror(AtlasResources.IMAGE_TOMBSTONES, (int)(num12 * Constants.S), (int)((num13 - num8 + num11) * Constants.S + 0.5), theSrcRect);
+                g.DrawImageMirror(AtlasResources.IMAGE_TOMBSTONES, (int)(num12 * Constants.S), (int)((num13 - num8 + num11) * Constants.S + 0.5), theSrcRect, true);
 
             }
 
