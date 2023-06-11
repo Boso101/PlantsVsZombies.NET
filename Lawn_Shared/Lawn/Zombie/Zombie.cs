@@ -6586,11 +6586,11 @@ namespace Lawn
                 for (int i = 0; i < mBoard.mPlants.Count; i++)
                 {
                     Plant aPlant = mBoard.mPlants[i];
-                    if(prev != null)
+                    if (prev != null)
                     {
                         prev = result_v as Plant;
                     }
-                    if (!aPlant.mDead && mRow == aPlant.mRow && mX >= aPlant.mX + 100 && !aPlant.NotOnGround() && !aPlant.IsSpiky() && (result_v == null || aPlant.mPlantCol < prev.mPlantCol ))
+                    if (!aPlant.mDead && mRow == aPlant.mRow && mX >= aPlant.mX + 100 && !aPlant.NotOnGround() && !aPlant.IsSpiky() && (result_v == null || aPlant.mPlantCol < prev.mPlantCol))
                     {
                         result_v = mBoard.GetTopPlantAt(aPlant.mPlantCol, aPlant.mRow, TopPlant.CatapultOrder);
                     }
@@ -6598,9 +6598,9 @@ namespace Lawn
             }
             else
             {
-                foreach(var zomb in mBoard.mZombies)
+                foreach (var zomb in mBoard.mZombies)
                 {
-                    if(zomb != this &&  zomb.mDead == false && mRow == zomb.mRow && mX >= zomb.mX + 100)
+                    if (zomb != this && zomb.mDead == false && mRow == zomb.mRow && mX >= zomb.mX + 100)
                     {
                         result_v = zomb;
                         break;
@@ -7487,17 +7487,32 @@ namespace Lawn
 
         public void SquishAllInSquare(int theX, int theY, ZombieAttackType theAttackType)
         {
-            for (int i = 0; i < mBoard.mPlants.Count; i++)
+            if (mMindControlled == false)
             {
-                Plant aPlant = mBoard.mPlants[i];
-                if (!aPlant.mDead
-                    && theY == aPlant.mRow
-                    && theX == aPlant.mPlantCol
-                    && (theAttackType != ZombieAttackType.DriveOver || !aPlant.IsSpiky())
-                    && aPlant.mSeedType != SeedType.Spikerock)
+
+                for (int i = 0; i < mBoard.mPlants.Count; i++)
                 {
-                    mBoard.mPlantsEaten++;
-                    aPlant.Squish();
+                    Plant aPlant = mBoard.mPlants[i];
+                    if (!aPlant.mDead
+                        && theY == aPlant.mRow
+                        && theX == aPlant.mPlantCol
+                        && (theAttackType != ZombieAttackType.DriveOver || !aPlant.IsSpiky())
+                        && aPlant.mSeedType != SeedType.Spikerock)
+                    {
+                        mBoard.mPlantsEaten++;
+                        aPlant.Squish();
+                    }
+                }
+            }
+            else
+            {
+                for(int i = 0; i < mBoard.mZombies.Count; i++)
+                {
+                    Zombie aZomb = mBoard.mZombies[i];
+                    if(aZomb != this && aZomb.mZombieType != ZombieType.Boss && aZomb.mDead == false && theY == aZomb.mRow && theX == aZomb.mTargetCol)
+                    {
+                        aZomb.DieNoLoot(false);
+                    }
                 }
             }
         }
@@ -9027,8 +9042,20 @@ namespace Lawn
                 }
                 theZombieType = GameConstants.gBossZombieList[RandomNumbers.NextNumber(num)];
             }
+
+
             Zombie zombie = mBoard.AddZombieInRow(theZombieType, mTargetRow, 0);
-            zombie.mPosX = 600f + mPosX;
+
+            if (mMindControlled == true)
+            {
+                zombie.mPosX = 600.0f - mPosX;
+            }
+            else
+            {
+                zombie.mPosX = 600f + mPosX;
+
+            }
+            zombie.mMindControlled = mMindControlled;
         }
 
         public void BossBungeeLeave()
@@ -9139,7 +9166,13 @@ namespace Lawn
         public void BossHeadSpitContact()
         {
             Debug.ASSERT(mApp.ReanimationTryToGet(mBossFireBallReanimID) == null);
+
             float aPosX = 550f + mPosX;
+
+            if (mMindControlled == true)
+            {
+                aPosX = 550.0f - mPosX;
+            }
             float aPosY = mBoard.GetPosYBasedOnRow(aPosX, mFireballRow) + GameConstants.BOSS_BALL_OFFSET_Y;
             int aRenderOrder = mRenderOrder + 1;
             Reanimation reanimation;
@@ -9224,7 +9257,12 @@ namespace Lawn
             }
             float aSpeed = aBossFireballReanim.GetTrackVelocity(Reanimation.ReanimTrackId__ground);
             float aBallPosX = aBossFireballReanim.mOverlayMatrix.mMatrix.M41 * Constants.IS;
-            aBallPosX -= aSpeed;
+            if (mMindControlled == false)
+            {
+                aSpeed = -aSpeed;
+            }
+
+            aBallPosX += aSpeed;
             aBossFireballReanim.mOverlayMatrix.mMatrix.M41 = aBallPosX * Constants.S;
             float aBallPosY = mBoard.GetPosYBasedOnRow(aBallPosX + 75f, mFireballRow) + GameConstants.BOSS_BALL_OFFSET_Y;
             aBossFireballReanim.mOverlayMatrix.mMatrix.M42 = aBallPosY * Constants.S;
