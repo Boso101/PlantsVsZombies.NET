@@ -4211,8 +4211,9 @@ namespace Lawn
             {
                 return ZombieType.Imp;
             }
-            Debug.ASSERT(false);
-            return ZombieType.Normal;
+
+            //  try return as int
+            return (ZombieType)theSeedType;
         }
 
         public static bool IsZombieSeedType(SeedType theSeedType)

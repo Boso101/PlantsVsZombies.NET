@@ -134,7 +134,7 @@ namespace Lawn
         Quickplay50,
 
         ChallengeZombiquarium,
-
+        ChallengePlayableZombies = 1 << PuzzleIZombie9,
         GameModeCount,
 
         AdventureCount = 1,

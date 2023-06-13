@@ -1007,7 +1007,7 @@ namespace Lawn
             }
             else
             {
-                mLevel = 0;
+                mLevel = 1;
             }
             mLevelStr = TodStringFile.TodStringTranslate("[LEVEL]") + " " + mApp.GetStageString(mLevel);
             PickBackground();
@@ -1027,7 +1027,7 @@ namespace Lawn
             }
             else if (mApp.IsFirstTimeAdventureMode() && mLevel == 1)
             {
-                mSunMoney = 150;
+                mSunMoney = 200;
             }
             else
             {
@@ -3909,11 +3909,10 @@ namespace Lawn
 
         public void MouseUpWithPlant(int x, int y, int theClickCount)
         {
-            if (mApp.IsIZombieLevel())
-            {
+            
                 mChallenge.IZombieMouseDownWithZombie(x, y, theClickCount);
                 return;
-            }
+           
             SeedType seedTypeInCursor = GetSeedTypeInCursor();
             int num = PlantingPixelToGridX((int)(x * Constants.IS), (int)(y * Constants.IS), seedTypeInCursor);
             int num2 = PlantingPixelToGridY((int)(x * Constants.IS), (int)(y * Constants.IS), seedTypeInCursor);
@@ -4687,7 +4686,7 @@ namespace Lawn
             {
                 mNextSurvivalStageCounter = 0;
             }
-            mApp.mBoardResult = BoardResult.Lost;
+            mApp.mBoardResult = BoardResult.Won;
             int count = mZombies.Count;
             for (int i = 0; i < count; i++)
             {
@@ -4750,11 +4749,11 @@ namespace Lawn
                 UpdateCursor();
                 return;
             }
-            GameOverDialog theDialog = new GameOverDialog(theMessage, true);
-            mApp.AddDialog(17, theDialog);
+            //GameOverDialog theDialog = new GameOverDialog(theMessage, true);
+           // mApp.AddDialog(17, theDialog);
             mApp.mMusic.StopAllMusic();
             StopAllZombieSounds();
-            mApp.PlaySample(Resources.SOUND_LOSEMUSIC);
+            mApp.PlaySample(Resources.SOUND_WINMUSIC);
             ReanimatorXnaHelpers.ReanimatorEnsureDefinitionLoaded(ReanimationType.ZombiesWon, true);
             int num = Constants.BOARD_EXTRA_ROOM / 2;
             Reanimation reanimation = mApp.AddReanimation((float)(-(float)Constants.BOARD_OFFSET + num + Constants.Board_Offset_AspectRatio_Correction), 0f, 900000, ReanimationType.ZombiesWon);
