@@ -64,6 +64,7 @@ namespace Lawn
         SlotMachineDiamond,
         ZombiquariumSnorkel,
         ZombiquariumTrophy,
+        ZombiesStart,
         ZombieNormal,
         ZombieTrafficCone,
         ZombiePolevaulter,
@@ -79,6 +80,7 @@ namespace Lawn
         ZombieDancer,
         ZombieGargantuar,
         ZombieImp,
+        ZombiesEnd,
         SeedsInChooserCount = 49,
         None = -1
     }
