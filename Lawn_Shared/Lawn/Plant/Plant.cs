@@ -724,7 +724,7 @@ namespace Lawn
             }
             num += mShakeOffsetX;
             num2 += mShakeOffsetY;
-            if (IsInPlay() && mApp.IsIZombieLevel())
+            if (IsInPlay())
             {
                 mBoard.mChallenge.IZombieDrawPlant(g, this);
             }

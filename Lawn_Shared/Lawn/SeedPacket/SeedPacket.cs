@@ -257,19 +257,19 @@ namespace Lawn
                 {
                     g.DrawImage(AtlasResources.IMAGE_SEEDPACKET_CRATER, x, y);
                 }
-                else if (GlobalStaticVars.gLawnApp.IsIZombieLevel())
+                else
                 {
                     SeedPacket.DrawIZombieSeedPacket(GlobalStaticVars.gLawnApp, g, x, y, seedType, thePercentDark, theGrayness, theDrawCost, theUseCurrentCost, theDrawBackground, theDrawCostBackground);
                 }
-                else
-                {
-                    g.DrawImageCel(AtlasResources.IMAGE_SEEDPACKETS, (int)x, (int)y, (int)seedType);
-                    if (theSeedType == SeedType.Imitater)
-                    {
-                        g.SetColor(new SexyColor(0, 255, 0, 128));
-                        g.FillRect((int)x, (int)y, Constants.SMALL_SEEDPACKET_WIDTH, Constants.SMALL_SEEDPACKET_HEIGHT);
-                    }
-                }
+                //else
+                //{
+                //    g.DrawImageCel(AtlasResources.IMAGE_SEEDPACKETS, (int)x, (int)y, (int)seedType);
+                //    if (theSeedType == SeedType.Imitater)
+                //    {
+                //        g.SetColor(new SexyColor(0, 255, 0, 128));
+                //        g.FillRect((int)x, (int)y, Constants.SMALL_SEEDPACKET_WIDTH, Constants.SMALL_SEEDPACKET_HEIGHT);
+                //    }
+                //}
             }
             if (theDrawCostBackground)
             {
@@ -399,7 +399,7 @@ namespace Lawn
             case SeedType.ZombieImp:
                 return ZombieType.Imp;
             default:
-                return ZombieType.Invalid;
+                return (ZombieType)theSeedType;
             }
         }
 

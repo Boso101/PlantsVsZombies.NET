@@ -438,6 +438,8 @@ namespace Lawn
                 mStoreButton.Resize(mStoreButton.mX, mStoreButton.mY, mStoreButton.mWidth + 200, mStoreButton.mHeight);
                 mStoreButton.SetLabel("[GET_FULL_VERSION_BUTTON]");
             }
+
+            plantAI = new PlantingAI(this, new SeedType[] { SeedType.Peashooter });
         }
 
         public override void Dispose()
@@ -4740,6 +4742,8 @@ namespace Lawn
             }
             if (flag)
             {
+                mLevelAwardSpawned = true;
+                FadeOutLevel();
                 mApp.mGameScene = GameScenes.ZombiesWon;
                 aZombie.WalkIntoHouse();
                 ClearAdvice(AdviceType.None);
@@ -6758,6 +6762,7 @@ namespace Lawn
 
         public void UpdateGame()//3update
         {
+            
             UpdateGameObjects();
             if (StageHasFog() && mFogBlownCountDown > 0)
             {
@@ -10183,6 +10188,8 @@ namespace Lawn
         public string mLevelStr;
 
         private int levelStrVal = -1;
+
+        private PlantingAI plantAI;
 
         private static TPoint[] mCelPoints = new TPoint[4];
 
