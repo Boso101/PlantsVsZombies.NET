@@ -439,7 +439,7 @@ namespace Lawn
                 mStoreButton.SetLabel("[GET_FULL_VERSION_BUTTON]");
             }
 
-            plantAI = new PlantingAI(this, new SeedType[] { SeedType.Peashooter });
+            plantAI = new PlantingAI(this, new SeedType[] { SeedType.Sunflower, SeedType.Peashooter, SeedType.Potatomine, SeedType.Wallnut });
         }
 
         public override void Dispose()

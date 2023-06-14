@@ -346,7 +346,7 @@ namespace Lawn
         private static void DrawIZombieSeedPacket(LawnApp theApp, Graphics g, float x, float y, SeedType aSeedType, float thePercentDark, int theGrayness, bool theDrawCost, bool theUseCurrentCost, bool theDrawBackground, bool theDrawCostBackground)
         {
             ZombieType izombieTypeFromSeed = SeedPacket.GetIZombieTypeFromSeed(aSeedType);
-            if (izombieTypeFromSeed == ZombieType.Invalid)
+            if (izombieTypeFromSeed == ZombieType.Invalid || (int)izombieTypeFromSeed > Constants.ZombieOffsets.Length)
             {
                 return;
             }
