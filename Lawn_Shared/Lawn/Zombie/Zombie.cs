@@ -1018,7 +1018,7 @@ namespace Lawn
                     return;
                 }
             }
-            if (mApp.IsIZombieLevel() && mBoard.mChallenge.IZombieEatBrain(this))
+            if (mBoard.mChallenge.IZombieEatBrain(this))
             {
                 return;
             }
@@ -9625,14 +9625,7 @@ namespace Lawn
             }
             if (mX <= board_EDGE && mHasHead)
             {
-                if (mApp.IsIZombieLevel())
-                {
-                    DieNoLoot(false);
-                }
-                else
-                {
-                    mBoard.ZombiesWon(this);
-                }
+                DieNoLoot(false);
             }
             if (mX <= board_EDGE + 70 && !mHasHead)
             {

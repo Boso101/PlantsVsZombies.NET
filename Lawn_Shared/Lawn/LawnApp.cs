@@ -1048,6 +1048,7 @@ namespace Lawn
                 mWidgetManager.RemoveWidget(mSeedChooserScreen);
                 base.SafeDeleteWidget(mSeedChooserScreen);
                 mSeedChooserScreen = null;
+
             }
         }
 

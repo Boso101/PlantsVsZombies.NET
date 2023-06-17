@@ -683,6 +683,7 @@ namespace Lawn
                     seedPacket.mActive = false;
                 }
             }
+            mBoard.SetupAI();
             mBoard.mCutScene.EndSeedChooser();
         }
 

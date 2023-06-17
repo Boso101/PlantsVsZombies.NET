@@ -1357,7 +1357,7 @@ namespace Lawn
             mPlacedLawnItems = true;
             if (!IsSurvivalRepick())
             {
-                mBoard.InitLawnMowers();
+              //  mBoard.InitLawnMowers();
                 AddFlowerPots();
             }
             if (!IsSurvivalRepick())

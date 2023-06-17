@@ -439,7 +439,135 @@ namespace Lawn
                 mStoreButton.SetLabel("[GET_FULL_VERSION_BUTTON]");
             }
 
-            plantAI = new PlantingAI(this, new SeedType[] { SeedType.Sunflower, SeedType.Peashooter, SeedType.Potatomine, SeedType.Wallnut });
+        }
+
+        public void SetupAI()
+        {
+            List<SeedType> aiSeeds = null;
+            float plantTime = 3.0f;
+
+            if (mApp.HasFinishedAdventure())
+            {
+                aiSeeds = new List<SeedType>
+                {
+                    SeedType.Tallnut,
+                    SeedType.Wintermelon,
+                    SeedType.Pumpkinshell,
+                    SeedType.Starfruit,
+                    SeedType.Jalapeno,
+                    SeedType.Squash,
+                    SeedType.Spikerock
+                };
+            }
+            else
+            {
+
+                if (mApp.IsNight())
+                {
+                    if (mLevel < 14)
+                    {
+
+                        aiSeeds = new List<SeedType>
+                        {
+                    SeedType.Puffshroom,
+                    SeedType.Fumeshroom,
+                    SeedType.Wallnut,
+                    SeedType.Cactus,
+                    SeedType.Hypnoshroom
+                        };
+                    }
+                    else
+                    {
+                        aiSeeds = new List<SeedType>
+                                            {
+                    SeedType.Repeater,
+                    SeedType.Fumeshroom,
+                    SeedType.Tallnut,
+                    SeedType.Cactus,
+                    SeedType.Hypnoshroom,
+                    SeedType.Squash
+                                            };
+                    }
+                }
+                else if (StageHasRoof())
+                {
+
+                }
+                else
+                {
+                    if (mLevel < 10)
+                    {
+                        aiSeeds = new List<SeedType>
+                        {
+                    SeedType.Sunflower,
+                    SeedType.Peashooter,
+                    SeedType.Potatomine
+                        };
+                    }
+                    else if (mLevel < 20)
+                    {
+
+                        aiSeeds = new List<SeedType>
+                        {
+                    SeedType.Chomper,
+                    SeedType.Peashooter,
+                    SeedType.Potatomine,
+                    SeedType.Wallnut
+                        };
+                    }
+                    else
+                    {
+                        aiSeeds = new List<SeedType>
+                        {
+                            SeedType.Squash,
+                            SeedType.Threepeater,
+                            SeedType.Potatomine,
+                            SeedType.Wallnut
+                        };
+                    }
+                }
+            }
+
+            if (StageHasPool())
+            {
+
+                aiSeeds.Add(SeedType.Lilypad);
+
+            }
+
+            // Counters
+
+            if (mLevel > 20)
+            {
+                foreach (var pack in mSeedBank.mSeedPackets)
+                {
+                    if (pack.mPacketType != SeedType.None)
+                    {
+
+                        ZombieType zomb = (ZombieType)pack.mPacketType;
+                        
+                        if(zomb == ZombieType.Zamboni)
+                        {
+                            aiSeeds.Add(SeedType.Spikeweed);
+                        }
+
+                        if(zomb == ZombieType.Bungee)
+                        {
+                            aiSeeds.Add(SeedType.Umbrella);
+                        }
+
+                        if(zomb == ZombieType.Football && StageIsNight())
+                        {
+                            aiSeeds.Add(SeedType.Magnetshroom);
+                        }
+
+                    }
+
+                }
+            }
+
+
+            plantAI = new PlantingAI(this, aiSeeds, plantTime);
         }
 
         public override void Dispose()
@@ -1033,7 +1161,7 @@ namespace Lawn
             }
             else
             {
-                mSunMoney = 50;
+                mSunMoney = 200;
             }
             for (int i = 0; i < mRowPickingArray.Length; i++)
             {
@@ -3911,10 +4039,10 @@ namespace Lawn
 
         public void MouseUpWithPlant(int x, int y, int theClickCount)
         {
-            
-                mChallenge.IZombieMouseDownWithZombie(x, y, theClickCount);
-                return;
-           
+
+            mChallenge.IZombieMouseDownWithZombie(x, y, theClickCount);
+            return;
+
             SeedType seedTypeInCursor = GetSeedTypeInCursor();
             int num = PlantingPixelToGridX((int)(x * Constants.IS), (int)(y * Constants.IS), seedTypeInCursor);
             int num2 = PlantingPixelToGridY((int)(x * Constants.IS), (int)(y * Constants.IS), seedTypeInCursor);
@@ -4754,7 +4882,7 @@ namespace Lawn
                 return;
             }
             //GameOverDialog theDialog = new GameOverDialog(theMessage, true);
-           // mApp.AddDialog(17, theDialog);
+            // mApp.AddDialog(17, theDialog);
             mApp.mMusic.StopAllMusic();
             StopAllZombieSounds();
             mApp.PlaySample(Resources.SOUND_WINMUSIC);
@@ -5016,6 +5144,7 @@ namespace Lawn
 
         public void UpdateSunSpawning()//3update
         {
+            return;
             if (StageIsNight())
             {
                 return;
@@ -6762,7 +6891,7 @@ namespace Lawn
 
         public void UpdateGame()//3update
         {
-            
+
             UpdateGameObjects();
             if (StageHasFog() && mFogBlownCountDown > 0)
             {

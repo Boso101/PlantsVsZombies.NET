@@ -1456,6 +1456,13 @@ namespace Lawn
                     reanimation.mAnimRate = TodCommon.RandRangeFloat(10f, 15f);
                 }
             }
+
+            for(int i = 0; i < 3; i++)
+            {
+                mBoard.AddCoin(mX, mY, CoinType.Sun, CoinMotion.FromPlant);
+
+            }
+
         }
 
         public void UpdateProductionPlant()//3update
@@ -1761,8 +1768,20 @@ namespace Lawn
             return plantDefinition.mPlantImage[0];
         }
 
+
+      
         public static int GetCost(SeedType theSeedType, SeedType theImitaterType)
         {
+            SeedType ZombieToSeed(ZombieType z)
+            {
+                return (SeedType)z;
+            }
+
+            ZombieType SeedToZombie(SeedType s)
+            {
+                return (ZombieType)s;
+            }
+
             if (GlobalStaticVars.gLawnApp.mGameMode == GameMode.ChallengeBeghouled || GlobalStaticVars.gLawnApp.mGameMode == GameMode.ChallengeBeghouledTwist)
             {
                 if (theSeedType == SeedType.Repeater)
@@ -1828,6 +1847,84 @@ namespace Lawn
                 return 50;
             default:
             {
+
+                // Zombie Values
+                ZombieType zomb = SeedToZombie(theSeedType);
+
+                switch (zomb)
+                {
+ 
+                case ZombieType.Normal:
+                    return 50;
+                case ZombieType.Flag:
+                    return 60;
+                case ZombieType.TrafficCone:
+                    return 75;
+                case ZombieType.Polevaulter:
+                    return 75;
+                case ZombieType.Pail:
+                    return 125;
+                case ZombieType.Newspaper:
+                    return 100;
+                case ZombieType.Door:
+                    return 150;
+                case ZombieType.Football:
+                    return 175;
+                case ZombieType.Dancer:
+                    return 200;
+                case ZombieType.BackupDancer:
+                    return 100;
+                case ZombieType.DuckyTube:
+                    return 50;
+                case ZombieType.Snorkel:
+                    return 100;
+                case ZombieType.Zamboni:
+                    return 200;
+                case ZombieType.Bobsled:
+                    return 300;
+                case ZombieType.DolphinRider:
+                    return 135;
+                case ZombieType.JackInTheBox:
+                    return 175;
+                case ZombieType.Balloon:
+                    return 150;
+                case ZombieType.Digger:
+                    return 225;
+                case ZombieType.Pogo:
+                    return 175;
+                case ZombieType.Yeti:
+                    return 150;
+                case ZombieType.Bungee:
+                    return 175;
+                case ZombieType.Ladder:
+                    return 225;
+                case ZombieType.Catapult:
+                    return 200;
+                case ZombieType.Gargantuar:
+                    return 300;
+                case ZombieType.Imp:
+                    return 35;
+                case ZombieType.Boss:
+                    return 1500;
+                case ZombieType.PeaHead:
+                    return 125;
+                case ZombieType.WallnutHead:
+                    return 200;
+                case ZombieType.JalapenoHead:
+                    return 300;
+                case ZombieType.GatlingHead:
+                    return 325;
+                case ZombieType.SquashHead:
+                    return 350;
+                case ZombieType.TallnutHead:
+                    return 300;
+                case ZombieType.RedeyeGargantuar:
+                    return 600;
+                default:
+                    return 0;
+                }
+
+
                 if (theSeedType == SeedType.Imitater && theImitaterType != SeedType.None)
                 {
                     PlantDefinition plantDefinition = Plant.GetPlantDefinition(theImitaterType);
