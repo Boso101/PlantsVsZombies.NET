@@ -170,7 +170,7 @@ namespace Lawn
                 chosenSeed3.mSeedIndexInBank = 0;
                 mSeedsInBank++;
             }
-            if (mApp.IsAdventureMode() && !mApp.IsFirstTimeAdventureMode())
+            if (mApp.IsAdventureMode())
             {
                 CrazyDavePickSeeds();
             }
@@ -986,7 +986,7 @@ namespace Lawn
             }
             int levelRandSeed = mBoard.GetLevelRandSeed();
             RandomNumbers.Seed(levelRandSeed);
-            for (int k = 0; k < 3; k++)
+            for (int k = 0; k < mNumSeedsToChoose - 1; k++)
             {
                 SeedType seedType2 = (SeedType)PickFromWeightedArrayUsingSpecialRandSeed(SeedChooserScreen.aSeedArray, (int)SeedType.SeedsInChooserCount);
                 SeedChooserScreen.aSeedArray[(int)seedType2].mWeight = 0;

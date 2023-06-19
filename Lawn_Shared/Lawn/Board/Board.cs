@@ -2162,6 +2162,8 @@ namespace Lawn
             {
                 switch ((char)theChar)
                 {
+                case '0':
+                    break;
                 case '1':
                 case '2':
                 case '3':
@@ -4748,9 +4750,15 @@ namespace Lawn
                 FreezeEffectsForCutscene(true);
                 TutorialArrowRemove();
                 UpdateCursor();
+                mApp.mPlayerInfo.Reset();
+                mApp.mPlayerInfo.SetLevel(6);
+                mApp.mPlayerInfo.mFinishedAdventure = 0;
+                mApp.SaveGame();
                 return;
             }
             GameOverDialog theDialog = new GameOverDialog(theMessage, true);
+            theDialog.MainMenuBoot();
+
             mApp.AddDialog(17, theDialog);
             mApp.mMusic.StopAllMusic();
             StopAllZombieSounds();

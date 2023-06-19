@@ -8,7 +8,7 @@ namespace Lawn
         public GameOverDialog(string theMessage, bool theShowChallengeName) : base((LawnApp)GlobalStaticVars.gSexyAppBase, null, 17, true, "[GAME_OVER]", theMessage, "", 3)
         {
             mMenuButton = null;
-            mLawnYesButton.SetLabel("[TRY_AGAIN]");
+            mLawnYesButton.SetLabel("[RESTART GAME]");
             mLawnYesButton.mId = 1;
             if (theMessage.length() == 0)
             {
@@ -23,15 +23,21 @@ namespace Lawn
             GlobalStaticVars.gLawnApp.mBoard.mMenuButton.mBtnNoDraw = true;
         }
 
+
+        public void MainMenuBoot()
+        {
+            mApp.KillDialog(17);
+            mApp.EndLevel();
+            mApp.ShowGameSelector();
+        }
+
         public override void ButtonDepress(int theId)
         {
             if (theId != 1)
             {
                 if (theId == 1000)
                 {
-                    mApp.KillDialog(17);
-                    mApp.EndLevel();
-                    mApp.ShowGameSelector();
+                    MainMenuBoot();
                 }
                 return;
             }

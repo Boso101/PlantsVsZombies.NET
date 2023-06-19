@@ -521,7 +521,7 @@ namespace Lawn
         public void DrawAwardSeed(Graphics g)
         {
             int level = mApp.mPlayerInfo.GetLevel();
-            SeedType awardSeedForLevel = mApp.GetAwardSeedForLevel(level - 1);
+            SeedType awardSeedForLevel = mApp.GetAwardSeedForLevel(Math.Clamp(level - 1, 0, int.MaxValue));
             string nameString = Plant.GetNameString(awardSeedForLevel, SeedType.None);
             string theMessage = string.Empty;
             if (mApp.IsTrialStageLocked() && awardSeedForLevel >= SeedType.Squash && awardSeedForLevel != SeedType.Tanglekelp)

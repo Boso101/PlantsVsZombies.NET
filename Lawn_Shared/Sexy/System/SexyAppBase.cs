@@ -986,7 +986,7 @@ namespace Sexy
 
         protected bool mDebugScreenEnabled;
 
-        public bool mDebugKeysEnabled;
+        public bool mDebugKeysEnabled = true;
 
         private IEnumerable<bool> mLoadingThreadAfterWorksSteps;
 

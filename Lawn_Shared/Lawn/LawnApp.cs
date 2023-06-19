@@ -2039,13 +2039,7 @@ namespace Lawn
 
         public int GetSeedsAvailable()
         {
-            int level = mPlayerInfo.GetLevel();
-            if (HasFinishedAdventure() || level > 50)
-            {
-                return 49;
-            }
-            int awardSeedForLevel = (int)GetAwardSeedForLevel(level);
-            return Math.Min(49, awardSeedForLevel);
+            return 49;
         }
 
         public Reanimation AddReanimation(float theX, float theY, int aRenderOrder, ReanimationType theReanimationType)
@@ -2266,22 +2260,7 @@ namespace Lawn
 
         public SeedType GetAwardSeedForLevel(int theLevel)
         {
-            int num = (theLevel - 1) / 10 + 1;
-            int num2 = (theLevel - 1) % 10 + 1;
-            int num3 = (num - 1) * 8 + num2;
-            if (num2 >= 10)
-            {
-                num3 -= 2;
-            }
-            else if (num2 >= 5)
-            {
-                num3--;
-            }
-            if (num3 > 40)
-            {
-                num3 = 40;
-            }
-            return (SeedType)num3;
+            return (SeedType)RandomNumbers.NextNumber((int)SeedType.SeedTypeCount-1) + 1;
         }
 
         public string GetCrazyDaveText(int theMessageIndex)
